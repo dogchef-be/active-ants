@@ -1,0 +1,27 @@
+{
+    "name": "afosto/active-ants",
+    "description": "Client for ActiveAnts API",
+    "type": "package",
+    "require": {
+        "guzzlehttp/guzzle": "^6.1"
+    },
+     "keywords": [
+        "active",
+        "ants",
+        "client",
+        "afosto",
+        "api"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Afosto Development Team",
+            "email": "support@afosto.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Afosto\\ActiveAnts\\": ["src", "src/models", "src/exception", "src/app"]
+        }
+    }
+}
