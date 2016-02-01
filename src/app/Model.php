@@ -150,7 +150,8 @@ class Model {
      * @return string
      */
     private function _getPath() {
-        return strtolower(end(explode("\\", get_called_class())));
+        $classPath = explode("\\", get_called_class());
+        return strtolower(end($classPath));
     }
 
 }
