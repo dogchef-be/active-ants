@@ -101,8 +101,8 @@ class Client {
         }
         try {
             $this->response = new Response($this->getGuzzleClient()->request($this->getMethod($data, $method), $path, $this->additionalHeaders));
-        } catch (RequestException $e) {
-            echo $e->getMessage;
+        } catch (\Exception $e) {
+            echo $e->getMessage();
             exit();
         }
         return $this->response;

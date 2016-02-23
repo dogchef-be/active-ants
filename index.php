@@ -4,10 +4,17 @@ namespace Afosto\ActiveAnts;
 
 require_once(dirname(__FILE__) . '/vendor/autoload.php');
 
+
+//Include our configs
+require_once(dirname(__FILE__) . '/../config.php');
+
+
 //Make sure this directory is writable
 $cacheDirectory = dirname(__FILE__) . '/../cache/';
 
-App::start('', '', '', $cacheDirectory);
+
+App::start($url, $user, $password, $cacheDirectory);
+
 
 $product = Product::model()
         ->setName('testProduct')
@@ -55,3 +62,5 @@ foreach (Stock::model()->findAll() as $stock) {
     echo $stock->sku . ': ' . $stock->stock . "\n";
 }
 
+$shipment = Shipment::model()->findByPk('#123');
+print_r($shipment);

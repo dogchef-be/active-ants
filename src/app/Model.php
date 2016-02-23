@@ -86,6 +86,27 @@ class Model {
         }
         return $data;
     }
+    
+    /**
+     * Find by the primary key
+     * @param string $pk
+     * @return array
+     */
+    public function findByPk($pk) {
+        $response = App::getInstance()->client->request($this->_getPath() . '/' . $this->findAction, array($this->primaryKey => $pk), $this->findMethod);
+        $result = $response->result;
+        if (count($result) == 1) {
+            $name = get_called_class();
+            $object = new $name;
+            foreach ($result[0] as $key => $value) {
+                //Fix the fact that for shipment data (only use case) properties
+                //are camelcase (as expected) but for all the other models aren't
+                $key = strtoupper(substr($key, 0,1)) . substr($key, 1);
+                $object->$key = $value;
+            }
+            return $object;
+        }
+    }
 
     /**
      * Return the data from the api
