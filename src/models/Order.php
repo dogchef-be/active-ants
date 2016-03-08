@@ -178,7 +178,7 @@ class Order extends Model {
         if (is_null($date)) {
             $date = new \DateTime('NOW');
         }
-        $this->PreferredShippingDate = date('Y-m-d', $date->getTimestamp());
+        $this->PreferredShippingDate = date('Y-m-d H:i:s', $date->getTimestamp());
         return $this;
     }
 
