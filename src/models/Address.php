@@ -9,49 +9,70 @@ class Address extends Model {
      * @var string
      */
     public $firstName;
-    
+
     /**
      * Customer last name
      * @var string
      */
     public $lastName;
-    
+
     /**
      * Postal code
      * @var string
      */
     public $postalCode;
-    
+
     /**
      * The street
      * @var string
      */
     public $street;
-    
+
     /**
      * The house number
      * @var string
      */
     public $houseNumber;
-    
+
     /**
      * The house number addition
      * @var string
      */
     public $houseNumberAddition;
-    
+
     /**
      * Cityname
      * @var string
      */
     public $cityName;
-    
+
     /**
      * Country ISO
      * @var string
      */
     public $countryIso;
-    
+
+    /**
+     * Funky code to get the housenumber and addition out of a street
+     * The mashape API (used for DHL pickup points) only returns address data
+     * @param type $street
+     * @return Address
+     */
+    public static function getAddressFromStreet($street) {
+        $address = new Address();
+        $pattern = '#^([a-z0-9 [:punct:]\']*) ([0-9]{1,5})([a-z0-9 \-/]{0,})$#i';
+        preg_match($pattern, str_replace(' - ', '-', $street), $aMatch);
+        
+        $address->street = $aMatch[1];
+        $address->houseNumber = preg_replace("/[^A-Za-z0-9 ]/", '', $aMatch[2]);
+        
+        if (isset($aMatch[3])) {
+            $address->houseNumberAddition = preg_replace("/[^A-Za-z0-9 ]/", '', $aMatch[3]);
+        }
+        
+        return $address;
+    }
+
     /**
      * Set the country code based on the available settings
      * @param type $code
@@ -67,7 +88,7 @@ class Address extends Model {
         }
         throw new ApiException('Invalid country code');
     }
-    
+
     /**
      * Set the customer name
      * @param string $lastName
@@ -79,7 +100,7 @@ class Address extends Model {
         $this->lastName = $lastName;
         return $this;
     }
-    
+
     /**
      * Set the address information
      * @param string $street
@@ -93,7 +114,7 @@ class Address extends Model {
         $this->houseNumberAddition = $addition;
         return $this;
     }
-    
+
     /**
      * Set the postalcode information
      * @param string $postalCode
@@ -103,7 +124,7 @@ class Address extends Model {
         $this->postalCode = $postalCode;
         return $this;
     }
-    
+
     /**
      * Set the city
      * @param string $city
@@ -113,7 +134,7 @@ class Address extends Model {
         $this->cityName = $city;
         return $this;
     }
-    
+
     /**
      * Return the flattend data
      * @param string $type
@@ -122,12 +143,10 @@ class Address extends Model {
     public function getAddress($type) {
         $address = array();
         foreach (array_keys(get_class_vars(__CLASS__)) as $key) {
-            $u = ucwords(substr($key, 0,1)) . substr($key, 1);
+            $u = ucwords(substr($key, 0, 1)) . substr($key, 1);
             $address[$type . $u] = $this->$key;
         }
         return $address;
     }
-    
-    
 
 }

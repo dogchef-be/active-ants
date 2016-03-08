@@ -14,7 +14,7 @@ class Order extends Model {
      * @var string
      */
     public $ExternalOrderNumber;
-    
+
     /**
      * The active ants order number
      * @var integer
@@ -81,6 +81,12 @@ class Order extends Model {
      * @var Address
      */
     private $shippingAddress;
+
+    /**
+     * The pickup point data
+     * @var string
+     */
+    public $PickUpPointPostalCode, $PickUpPointHouseNumber, $PickUpPointAddition, $PickUpPointId;
 
     /**
      * Billing data
@@ -177,6 +183,23 @@ class Order extends Model {
     }
 
     /**
+     * Add pickup point information
+     * @param string $pointId
+     * @param string $postalCode
+     * @param integer $houseNumber
+     * @param string $houseNumberAddition
+     */
+    public function setPickupPoint($pointId, $postalCode, $street) {
+        $this->PickUpPointId = $pointId;
+        $this->PickUpPointPostalCode = $postalCode;
+        
+        //Get the address data based on the street data
+        $address = Address::getAddressFromStreet($street);
+        $this->PickUpPointHouseNumber = $address->houseNumber;
+        $this->PickUpPointAddition = $address->houseNumberAddition;        
+    }
+
+    /**
      * Add an item to the order
      * @param \Afosto\ActiveAnts\OrderItem $item
      * @return \Afosto\ActiveAnts\Order
@@ -265,8 +288,7 @@ class Order extends Model {
         $this->setAttributes($this->shippingAddress->getAddress('DeliveryAddress'));
         return parent::save();
     }
-    
-    
+
     /**
      * Return all data from api 
      * @param string $attributes
