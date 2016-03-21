@@ -45,6 +45,7 @@ $order = Order::model()
         ->setBillingAddress($address)
         ->setShippingAddress($address);
 
+//$order->setPickupPoint('NL-111101', '1111AA', 'Straatnaam 10a');
 
 if (!$order->save()) {
     echo $order->getMessage();
@@ -61,6 +62,3 @@ if (!$purchase->save()) {
 foreach (Stock::model()->findAll() as $stock) {
     echo $stock->sku . ': ' . $stock->stock . "\n";
 }
-
-$shipment = Shipment::model()->findByPk('#123');
-print_r($shipment);

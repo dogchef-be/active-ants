@@ -178,7 +178,7 @@ class Client {
                 ),
                 'allow_redirects' => false,
                 'connect_timeout' => 10,
-                'timeout' => 10
+                'timeout' => 30
             ));
         }
         return $this->client;
