@@ -34,4 +34,13 @@ class Stock extends Model {
      */
     protected $findMethod = 'GET';
 
+    /**
+     * Returns the updated stock items only
+     * @return Stock[]
+     */
+    public function getUpdates() {
+        //Change the find action to false to receive the updated records only
+        $this->findAction = 'bulk/false';
+        return $this->findAll();
+    }
 }
