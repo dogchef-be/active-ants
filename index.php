@@ -43,9 +43,9 @@ $order = Order::model()
         ->setPhoneNumber('test')
         ->addOrderItem($item)
         ->setBillingAddress($address)
-        ->setShippingAddress($address);
+        ->setShippingAddress();
 
-//$order->setPickupPoint('NL-111101', '1111AA', 'Straatnaam 10a');
+//$order->setPickupPoint('NL-111101', '1111AA', 'Straatnaam 10a' , 'Groningen');
 
 if (!$order->save()) {
     echo $order->getMessage();

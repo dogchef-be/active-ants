@@ -17,6 +17,12 @@ class Address extends Model {
     public $lastName;
 
     /**
+     * The 'extra' name, used for pickup points
+     * @var string
+     */
+    public $extraName;
+
+    /**
      * Postal code
      * @var string
      */
@@ -55,21 +61,32 @@ class Address extends Model {
     /**
      * Funky code to get the housenumber and addition out of a street
      * The mashape API (used for DHL pickup points) only returns address data
-     * @param type $street
-     * @return Address
+     * @param srting $street Can be address (with housenumber)
+     * @param string $postalCode
+     * @param string $city
+     * @param integer $houseNumber Optional
+     * @param string $houseNumberAddition Optional
+     * @return \Afosto\ActiveAnts\Address
      */
-    public static function getAddressFromStreet($street) {
+    public static function formatAddress($street, $postalCode, $city, $houseNumber = null, $houseNumberAddition = null) {
         $address = new Address();
-        $pattern = '#^([a-z0-9 [:punct:]\']*) ([0-9]{1,5})([a-z0-9 \-/]{0,})$#i';
-        preg_match($pattern, str_replace(' - ', '-', $street), $aMatch);
-        
-        $address->street = $aMatch[1];
-        $address->houseNumber = preg_replace("/[^A-Za-z0-9 ]/", '', $aMatch[2]);
-        
-        if (isset($aMatch[3])) {
-            $address->houseNumberAddition = preg_replace("/[^A-Za-z0-9 ]/", '', $aMatch[3]);
+        if (is_null($houseNumber)) {
+            //If housenumber was not provided, try to retreive it from the street (address)
+            $pattern = '#^([a-z0-9 [:punct:]\']*) ([0-9]{1,5})([a-z0-9 \-/]{0,})$#i';
+            preg_match($pattern, str_replace(' - ', '-', $street), $aMatch);
+            $address->street = $aMatch[1];
+            $address->houseNumber = preg_replace("/[^A-Za-z0-9 ]/", '', $aMatch[2]);
+            if (isset($aMatch[3])) {
+                $address->houseNumberAddition = preg_replace("/[^A-Za-z0-9 ]/", '', $aMatch[3]);
+            }
+        } else {
+            $address->street = $street;
+            $address->houseNumber = $houseNumber;
+            $address->houseNumberAddition = $houseNumberAddition;
         }
-        
+        $address->postalCode = $postalCode;
+        $address->cityName = $city;
+
         return $address;
     }
 
@@ -147,6 +164,25 @@ class Address extends Model {
             $address[$type . $u] = $this->$key;
         }
         return $address;
+    }
+
+    /**
+     * Sets the 'extra' name
+     */
+    public function setExtraName() {
+        $this->extraName = 'T.a.v.' . $this->firstName . ' ' . $this->lastName .
+                ' (' . $this->getFullHouseNumber() . ')';
+    }
+
+    /**
+     * Return the formatted housenumber
+     * @return string
+     */
+    public function getFullHouseNumber() {
+        if (is_null($this->houseNumberAddition) || trim($this->houseNumberAddition) == '') {
+            return $this->houseNumber;
+        }
+        return $this->houseNumber . ' ' . $this->houseNumberAddition;
     }
 
 }

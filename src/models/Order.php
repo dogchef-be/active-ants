@@ -164,8 +164,16 @@ class Order extends Model {
      * @param \Afosto\ActiveAnts\Address $address
      * @return \Afosto\ActiveAnts\Order
      */
-    public function setShippingAddress(Address $address) {
-        $this->shippingAddress = $address;
+    public function setShippingAddress(Address $address = null) {
+        if (is_null($address)) {
+            if (!empty($this->billingAddress)) {
+                $this->shippingAddress = clone($this->billingAddress);
+            } else {
+                throw new ApiException('Cannot copy billing address as it is empty');
+            }
+        } else {
+            $this->shippingAddress = $address;
+        }
         return $this;
     }
 
@@ -186,17 +194,27 @@ class Order extends Model {
      * Add pickup point information
      * @param string $pointId
      * @param string $postalCode
-     * @param integer $houseNumber
-     * @param string $houseNumberAddition
+     * @param string $street
+     * @param string $city
      */
-    public function setPickupPoint($pointId, $postalCode, $street) {
+    public function setPickupPoint($pointId, $postalCode, $street, $city) {
         $this->PickUpPointId = $pointId;
         $this->PickUpPointPostalCode = $postalCode;
-        
+
         //Get the address data based on the street data
-        $address = Address::getAddressFromStreet($street);
-        $this->PickUpPointHouseNumber = $address->houseNumber;
-        $this->PickUpPointAddition = $address->houseNumberAddition;        
+        $pointAddress = Address::formatAddress($street, $postalCode, $city);
+        $this->PickUpPointHouseNumber = $pointAddress->houseNumber;
+        $this->PickUpPointAddition = $pointAddress->houseNumberAddition;
+
+        //Overwrite the shipping to address to the values from the pickup point
+        $this->shippingAddress->street = $pointAddress->street;
+        $this->shippingAddress->houseNumber = $pointAddress->houseNumber;
+        $this->shippingAddress->houseNumberAddition = $pointAddress->houseNumberAddition;
+        $this->shippingAddress->cityName = $pointAddress->cityName;
+        $this->shippingAddress->postalCode = $pointAddress->postalCode;
+
+        //Set the extraname, only used for pickup points
+        $this->shippingAddress->setExtraName();
     }
 
     /**
