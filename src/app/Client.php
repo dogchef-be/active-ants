@@ -99,11 +99,8 @@ class Client {
                 'form_params' => $data
             ));
         }
-        try {
-            $this->response = new Response($this->getGuzzleClient()->request($this->getMethod($data, $method), $path, $this->additionalHeaders));
-        } catch (\Exception $e) {
-            throw $e;
-        }
+        $this->response = new Response($this->getGuzzleClient()->request($this->getMethod($data, $method), $path, $this->additionalHeaders));
+      
         return $this->response;
     }
     
