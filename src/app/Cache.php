@@ -3,22 +3,22 @@
 namespace Afosto\ActiveAnts;
 
 class Cache {
-    
+
     /**
      * Set the user session hash
      * @var string
      */
     private $_hash;
-    
+
     /**
      * The path to the cache directory
-     * @var string 
+     * @var string
      */
     private $_cacheDirectory;
-    
+
     /**
      * Set the directory used for caching
-     * @param string $hash  
+     * @param string $hash
      * @param string $cacheDirectory
      * @throws ApiException
      */
@@ -29,19 +29,21 @@ class Cache {
             throw new ApiException('Cache directory is not writable');
         }
         return $this;
-    }    
+    }
 
     /**
      * Set the cache key value
-     * @param string $key
-     * @param string $contents
-     * @param integer $expiry       Seconds untill expiration
+     * @param $key
+     * @param $contents
+     * @param $expiry
+     *
+     * @throws ApiException
      */
     public function setCache($key, $contents, $expiry) {
         if (file_put_contents($this->_cacheDirectory. '/' . $this->_getCacheKey($key), serialize($contents)) === FALSE) {
             throw new ApiException('Cache storage failed');
         }
-        touch($this->_cacheDirectory . '/' . $this->_getCacheKey($key), (time() + (int) $expiry));
+        touch($this->_cacheDirectory . '/' . $this->_getCacheKey($key), ((time() + (int) $expiry) - 1));
     }
 
     /**
@@ -59,7 +61,7 @@ class Cache {
         }
         return false;
     }
-    
+
     /**
      * Returns the cache key, based on client specific data
      * @param string $key
@@ -68,5 +70,5 @@ class Cache {
     private function _getCacheKey($key) {
         return $this->_hash . '-' . $key . '.bin';
     }
-    
+
 }
