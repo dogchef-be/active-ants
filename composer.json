@@ -1,5 +1,5 @@
 {
-    "name": "afosto/active-ants",
+    "name": "dogchef-be/active-ants",
     "description": "Client for ActiveAnts API",
     "type": "package",
     "require": {
@@ -21,7 +21,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "Afosto\\ActiveAnts\\": ["src", "src/models", "src/exception", "src/app"]
+            "Dogchef\\ActiveAnts\\": ["src", "src/models", "src/exception", "src/app"]
         }
     }
 }
