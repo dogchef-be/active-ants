@@ -21,7 +21,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "Dogchef\\ActiveAnts\\": ["src", "src/models", "src/exception", "src/app"]
+            "ActiveAnts\\": ["src", "src/models", "src/exception", "src/app"]
         }
     }
 }
