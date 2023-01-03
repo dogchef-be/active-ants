@@ -1,6 +1,6 @@
 <?php
 
-namespace Afosto\ActiveAnts;
+namespace ActiveAnts;
 
 class OrderItem extends Model {
 
@@ -37,7 +37,7 @@ class OrderItem extends Model {
     /**
      * Set the product for this order-row
      * @param string $sku
-     * @return \Afosto\ActiveAnts\OrderItem
+     * @return \ActiveAnts\OrderItem
      */
     public function setSku($sku, $validate = true) {
         if ($validate && Product::model()->isNewRecord(array('sku' => $sku))) {
@@ -50,7 +50,7 @@ class OrderItem extends Model {
     /**
      * Return the name
      * @param string $name
-     * @return \Afosto\ActiveAnts\OrderItem
+     * @return \ActiveAnts\OrderItem
      */
     public function setName($name) {
         $this->name = $name;
@@ -60,7 +60,7 @@ class OrderItem extends Model {
     /**
      * Set the price
      * @param float $price
-     * @return \Afosto\ActiveAnts\OrderItem
+     * @return \ActiveAnts\OrderItem
      */
     public function setGrossPrice($price) {
         $this->price = round(floatval($price), 2);
@@ -70,7 +70,7 @@ class OrderItem extends Model {
     /**
      * Set the taxRate to calculate the VAT
      * @param integer $taxRate
-     * @return \Afosto\ActiveAnts\OrderItem
+     * @return \ActiveAnts\OrderItem
      */
     public function setTaxRate($taxRate) {
         $this->vat = round($this->price - (($this->price * 100) / (100 + (int)$taxRate)), 2);
@@ -80,7 +80,7 @@ class OrderItem extends Model {
     /**
      * The amount
      * @param integer $quantity
-     * @return \Afosto\ActiveAnts\OrderItem
+     * @return \ActiveAnts\OrderItem
      */
     public function setQuantity($quantity) {
         $this->quantity = (int) $quantity;

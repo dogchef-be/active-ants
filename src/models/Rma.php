@@ -1,6 +1,6 @@
 <?php
 
-namespace Afosto\ActiveAnts;
+namespace ActiveAnts;
 
 class Rma extends Model {
 
@@ -21,7 +21,7 @@ class Rma extends Model {
      * @param type $sku
      * @param type $isDamaged
      * @param type $quantity
-     * @return \Afosto\ActiveAnts\Rma
+     * @return \ActiveAnts\Rma
      */
     public function addItem($sku, $isDamaged = false, $quantity = 1) {
         array_push($this->ApiRmaNotificationItemViewModels, array(
@@ -34,7 +34,7 @@ class Rma extends Model {
 
     /**
      * Set the order id
-     * @param \Afosto\ActiveAnts\Order|string $order
+     * @param \ActiveAnts\Order|string $order
      */
     public function setOrderId($order) {
         if ($order instanceof Order) {

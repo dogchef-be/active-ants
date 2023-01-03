@@ -1,6 +1,6 @@
 <?php
 
-namespace Afosto\ActiveAnts;
+namespace ActiveAnts;
 
 class PurchaseOrder extends Model {
         
@@ -19,7 +19,7 @@ class PurchaseOrder extends Model {
     /**
      * Pass a not along with the purchase order
      * @param string $note
-     * @return \Afosto\ActiveAnts\PurchaseOrder
+     * @return \ActiveAnts\PurchaseOrder
      */
     public function addReference($note) {
         $this->Reference = $note;
@@ -31,7 +31,7 @@ class PurchaseOrder extends Model {
      * @param string $sku
      * @param integer $quantity
      * @param \DateTime $deliveryDate
-     * @return \Afosto\ActiveAnts\PurchaseOrder
+     * @return \ActiveAnts\PurchaseOrder
      */
     public function addItem($sku, $quantity, \DateTime $deliveryDate = null) {
         $product = Product::model();

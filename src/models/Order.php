@@ -1,6 +1,6 @@
 <?php
 
-namespace Afosto\ActiveAnts;
+namespace ActiveAnts;
 
 class Order extends Model {
 
@@ -115,7 +115,7 @@ class Order extends Model {
     /**
      * The customer's email
      * @param string $email
-     * @return \Afosto\ActiveAnts\Order
+     * @return \ActiveAnts\Order
      */
     public function setEmail($email) {
         if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -129,7 +129,7 @@ class Order extends Model {
     /**
      * The third party orderId
      * @param string $orderId
-     * @return \Afosto\ActiveAnts\Order
+     * @return \ActiveAnts\Order
      */
     public function setOrderId($orderId) {
         if (strlen($orderId) < 3) {
@@ -142,7 +142,7 @@ class Order extends Model {
     /**
      * The customer's phoneNumber
      * @param string $phoneNumber
-     * @return \Afosto\ActiveAnts\Order
+     * @return \ActiveAnts\Order
      */
     public function setPhoneNumber($phoneNumber) {
         $this->PhoneNumber = $phoneNumber;
@@ -151,8 +151,8 @@ class Order extends Model {
 
     /**
      * Set the billing address
-     * @param \Afosto\ActiveAnts\Address $address
-     * @return \Afosto\ActiveAnts\Order
+     * @param \ActiveAnts\Address $address
+     * @return \ActiveAnts\Order
      */
     public function setBillingAddress(Address $address) {
         $this->billingAddress = $address;
@@ -161,8 +161,8 @@ class Order extends Model {
 
     /**
      * Set the shipping address
-     * @param \Afosto\ActiveAnts\Address $address
-     * @return \Afosto\ActiveAnts\Order
+     * @param \ActiveAnts\Address $address
+     * @return \ActiveAnts\Order
      */
     public function setShippingAddress(Address $address = null) {
         if (is_null($address)) {
@@ -180,7 +180,7 @@ class Order extends Model {
     /**
      * Set the preferred shipping date
      * @param \DateTime $date
-     * @return \Afosto\ActiveAnts\Order
+     * @return \ActiveAnts\Order
      */
     public function setPreferredShippingDate(\DateTime $date = null) {
         if (is_null($date)) {
@@ -219,8 +219,8 @@ class Order extends Model {
 
     /**
      * Add an item to the order
-     * @param \Afosto\ActiveAnts\OrderItem $item
-     * @return \Afosto\ActiveAnts\Order
+     * @param \ActiveAnts\OrderItem $item
+     * @return \ActiveAnts\Order
      */
     public function addOrderItem(OrderItem $item) {
         $product = Product::model();
@@ -236,7 +236,7 @@ class Order extends Model {
     /**
      * Set the customer language
      * @param string $code      2 letter isocode
-     * @return \Afosto\ActiveAnts\Order
+     * @return \ActiveAnts\Order
      */
     public function setLanguage($code = 'NL') {
         foreach (App::getInstance()->getSettings()->languages as $language) {
@@ -250,7 +250,7 @@ class Order extends Model {
 
     /**
      * Select the default order type
-     * @return \Afosto\ActiveAnts\Order
+     * @return \ActiveAnts\Order
      */
     public function setOrderType($code = 'webwinkel_orders') {
         foreach (App::getInstance()->getSettings()->orderTypes as $orderType) {
@@ -265,7 +265,7 @@ class Order extends Model {
     /**
      * Set the payment method
      * @param type $code
-     * @return \Afosto\ActiveAnts\Order
+     * @return \ActiveAnts\Order
      */
     public function setPaymentMethod($code = 'GI') {
         foreach (App::getInstance()->getSettings()->paymentMethods as $paymentMethod) {
@@ -280,7 +280,7 @@ class Order extends Model {
     /**
      * Set the shipping method
      * @param string $code
-     * @return \Afosto\ActiveAnts\Order
+     * @return \ActiveAnts\Order
      */
     public function setShippingMethod($code = 'BUSEU1') {
         foreach (App::getInstance()->getSettings()->shippingMethods as $shippingMethod) {

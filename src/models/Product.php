@@ -1,6 +1,6 @@
 <?php
 
-namespace Afosto\ActiveAnts;
+namespace ActiveAnts;
 
 class Product extends Model {
 
@@ -38,7 +38,7 @@ class Product extends Model {
      * Set the SKU
      * @param string $sku
      * @param string $barcode
-     * @return \Afosto\ActiveAnts\Product
+     * @return \ActiveAnts\Product
      */
     public function setSku($sku, $barcode = null) {
         $this->sku = $sku;
@@ -50,7 +50,7 @@ class Product extends Model {
      * Set the products' descriptors
      * @param string $name
      * @param string $description
-     * @return \Afosto\ActiveAnts\Product
+     * @return \ActiveAnts\Product
      */
     public function setName($name, $description = null) {
         $this->name = $name;

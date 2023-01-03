@@ -1,6 +1,6 @@
 <?php
 
-namespace Afosto\ActiveAnts;
+namespace ActiveAnts;
 
 use GuzzleHttp\Psr7\Response as GuzzleResponse;
 

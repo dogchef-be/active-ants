@@ -1,6 +1,6 @@
 <?php
 
-namespace Afosto\ActiveAnts;
+namespace ActiveAnts;
 
 class Address extends Model {
 
@@ -66,7 +66,7 @@ class Address extends Model {
      * @param string $city
      * @param integer $houseNumber Optional
      * @param string $houseNumberAddition Optional
-     * @return \Afosto\ActiveAnts\Address
+     * @return \ActiveAnts\Address
      */
     public static function formatAddress($street, $postalCode, $city, $houseNumber = null, $houseNumberAddition = null) {
         $address = new Address();
@@ -93,7 +93,7 @@ class Address extends Model {
     /**
      * Set the country code based on the available settings
      * @param type $code
-     * @return \Afosto\ActiveAnts\Address
+     * @return \ActiveAnts\Address
      * @throws ApiException
      */
     public function setCountry($code) {
@@ -110,7 +110,7 @@ class Address extends Model {
      * Set the customer name
      * @param string $lastName
      * @param string $firstName
-     * @return \Afosto\ActiveAnts\Address
+     * @return \ActiveAnts\Address
      */
     public function setName($lastName, $firstName = null) {
         $this->firstName = $firstName;
@@ -123,7 +123,7 @@ class Address extends Model {
      * @param string $street
      * @param integer $number
      * @param string $addition
-     * @return \Afosto\ActiveAnts\Address
+     * @return \ActiveAnts\Address
      */
     public function setAddress($street, $number, $addition = null) {
         $this->street = $street;
@@ -135,7 +135,7 @@ class Address extends Model {
     /**
      * Set the postalcode information
      * @param string $postalCode
-     * @return \Afosto\ActiveAnts\Address
+     * @return \ActiveAnts\Address
      */
     public function setPostalcode($postalCode) {
         $this->postalCode = $postalCode;
@@ -145,7 +145,7 @@ class Address extends Model {
     /**
      * Set the city
      * @param string $city
-     * @return \Afosto\ActiveAnts\Address
+     * @return \ActiveAnts\Address
      */
     public function setCity($city) {
         $this->cityName = $city;

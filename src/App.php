@@ -1,8 +1,9 @@
 <?php
 
-namespace Afosto\ActiveAnts;
+namespace ActiveAnts;
 
-class App {
+class App
+{
 
     /**
      * Contains the client
@@ -15,7 +16,7 @@ class App {
      * @var Settings
      */
     public $settings;
-    
+
     /**
      * The cache component
      * @var Cache
@@ -34,6 +35,8 @@ class App {
      */
     private static $app;
 
+    public $endpoint;
+
     /**
      * Build an api client
      * @param sring $endpoint
@@ -41,7 +44,8 @@ class App {
      * @param string $password
      * @param string $cacheDirectory
      */
-    public static function start($endpoint, $username, $password, $cacheDirectory) {
+    public static function start($endpoint, $username, $password, $cacheDirectory)
+    {
         if (self::$app == null) {
             self::$app = new self();
             self::$app->setAuth($username, $password)->setEndpoint($endpoint)->setCacheDirectory($cacheDirectory);
@@ -55,7 +59,8 @@ class App {
      * @param boolean $debug
      * @return App
      */
-    public static function getInstance() {
+    public static function getInstance()
+    {
         if (self::$app == null) {
             throw new ApiException('Not connected');
         }
@@ -67,40 +72,44 @@ class App {
      * @param string $password
      * @return App
      */
-    public function setAuth($username, $password) {
+    public function setAuth($username, $password)
+    {
         $this->client = new Client();
         $this->client->setUsername($username);
         $this->client->setPassword($password);
         $this->_hash = sha1($username . $password);
         return $this;
     }
-    
-    
+
+
     /**
      * Set the authorization parameters
      * @param string $endpoint
      * @return App
      */
-    public function setEndpoint($endpoint) {
+    public function setEndpoint($endpoint)
+    {
         $this->endpoint = $endpoint;
         return $this;
     }
-    
+
     /**
      * Prepare the cache component
      * @param string $cacheDirectory
-     * @return \Afosto\ActiveAnts\App
+     * @return \ActiveAnts\App
      */
-    public function setCacheDirectory($cacheDirectory) {
+    public function setCacheDirectory($cacheDirectory)
+    {
         $this->cache = new Cache($this->_hash, $cacheDirectory);
         return $this;
     }
-    
+
     /**
      * Return the active ants settings
      * @return Settings
      */
-    public function getSettings() {
+    public function getSettings()
+    {
         if (is_null($this->settings)) {
             $this->settings = Settings::load();
         }

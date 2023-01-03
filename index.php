@@ -1,6 +1,6 @@
 <?php
 
-namespace Afosto\ActiveAnts;
+namespace ActiveAnts;
 
 require_once(dirname(__FILE__) . '/vendor/autoload.php');
 
@@ -21,7 +21,7 @@ $product = Product::model()
         ->setSku('testSku');
 
 if (!$product->save()) {
-    echo $product->getMessage();
+        echo $product->getMessage();
 }
 
 $item = OrderItem::model()
@@ -39,7 +39,7 @@ $address = Address::model()
 
 $order = Order::model()
         ->setEmail('support@afosto.com')
-        ->setOrderId('#' . rand(100,999))
+        ->setOrderId('#' . 1000)
         ->setPhoneNumber('test')
         ->addOrderItem($item)
         ->setBillingAddress($address)
@@ -48,7 +48,7 @@ $order = Order::model()
 //$order->setPickupPoint('NL-111101', '1111AA', 'Straatnaam 10a' , 'Groningen');
 
 if (!$order->save()) {
-    echo $order->getMessage();
+        echo $order->getMessage();
 }
 
 $purchase = PurchaseOrder::model()
@@ -56,9 +56,9 @@ $purchase = PurchaseOrder::model()
         ->addReference('testPurchaseOrder');
 
 if (!$purchase->save()) {
-    echo $purchase->getMessage();
+        echo $purchase->getMessage();
 }
 
 foreach (Stock::model()->findAll() as $stock) {
-    echo $stock->sku . ': ' . $stock->stock . "\n";
+        echo $stock->sku . ': ' . $stock->stock . "\n";
 }

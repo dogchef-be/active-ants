@@ -1,6 +1,6 @@
 <?php
 
-namespace Afosto\ActiveAnts;
+namespace ActiveAnts;
 
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\RequestException;
@@ -46,7 +46,7 @@ class Client {
     /**
      * Set the username
      * @param string $username
-     * @return \Afosto\ActiveAnts\ApiClient
+     * @return \ActiveAnts\ApiClient
      */
     public function setUsername($username) {
         $this->username = $username;
@@ -56,7 +56,7 @@ class Client {
     /**
      * Set the password
      * @param string $password
-     * @return \Afosto\ActiveAnts\ApiClient
+     * @return \ActiveAnts\ApiClient
      */
     public function setPassword($password) {
         $this->password = $password;
@@ -67,7 +67,7 @@ class Client {
      * Authorize to get a token
      * @param string $username
      * @param string $password
-     * @return \Afosto\ActiveAnts\ApiClient
+     * @return \ActiveAnts\ApiClient
      */
     public function authorize() {
         if (App::getInstance()->cache->getCache('token')) {
