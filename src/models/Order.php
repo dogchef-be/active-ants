@@ -2,7 +2,8 @@
 
 namespace ActiveAnts;
 
-class Order extends Model {
+class Order extends Model
+{
 
     /**
      * The key used to lookup the model at ActiveAnts
@@ -93,23 +94,24 @@ class Order extends Model {
      * @var string
      */
     public $BillingAddressFirstName, $BillingAddressLastName, $BillingAddressPostalCode,
-            $BillingAddressStreet, $BillingAddressHouseNumber, $BillingAddressHouseNumberAddition,
-            $BillingAddressCityName, $BillingAddressCountryIso;
+        $BillingAddressStreet, $BillingAddressHouseNumber, $BillingAddressHouseNumberAddition,
+        $BillingAddressCityName, $BillingAddressCountryIso;
 
     /**
      * Delivery data
      * @var string
      */
     public $DeliveryAddressFirstName, $DeliveryAddressLastName, $DeliveryAddressPostalCode,
-            $DeliveryAddressStreet, $DeliveryAddressHouseNumber, $DeliveryAddressHouseNumberAddition,
-            $DeliveryAddressCityName, $DeliveryAddressCountryIso;
+        $DeliveryAddressStreet, $DeliveryAddressHouseNumber, $DeliveryAddressHouseNumberAddition,
+        $DeliveryAddressCityName, $DeliveryAddressCountryIso;
 
     /**
      * Build the default order
      */
-    public function __construct() {
+    public function __construct()
+    {
         //Make sure the default required settings are set
-        $this->setOrderType()->setPaymentMethod()->setLanguage();
+        //$this->setOrderType()->setPaymentMethod()->setLanguage();
     }
 
     /**
@@ -117,7 +119,8 @@ class Order extends Model {
      * @param string $email
      * @return \ActiveAnts\Order
      */
-    public function setEmail($email) {
+    public function setEmail($email)
+    {
         if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $this->Email = $email;
         } else {
@@ -131,7 +134,8 @@ class Order extends Model {
      * @param string $orderId
      * @return \ActiveAnts\Order
      */
-    public function setOrderId($orderId) {
+    public function setOrderId($orderId)
+    {
         if (strlen($orderId) < 3) {
             throw new ApiException('OrderId should at least have 3 chars');
         }
@@ -144,7 +148,8 @@ class Order extends Model {
      * @param string $phoneNumber
      * @return \ActiveAnts\Order
      */
-    public function setPhoneNumber($phoneNumber) {
+    public function setPhoneNumber($phoneNumber)
+    {
         $this->PhoneNumber = $phoneNumber;
         return $this;
     }
@@ -154,7 +159,8 @@ class Order extends Model {
      * @param \ActiveAnts\Address $address
      * @return \ActiveAnts\Order
      */
-    public function setBillingAddress(Address $address) {
+    public function setBillingAddress(Address $address)
+    {
         $this->billingAddress = $address;
         return $this;
     }
@@ -164,10 +170,11 @@ class Order extends Model {
      * @param \ActiveAnts\Address $address
      * @return \ActiveAnts\Order
      */
-    public function setShippingAddress(Address $address = null) {
+    public function setShippingAddress(Address $address = null)
+    {
         if (is_null($address)) {
             if (!empty($this->billingAddress)) {
-                $this->shippingAddress = clone($this->billingAddress);
+                $this->shippingAddress = clone ($this->billingAddress);
             } else {
                 throw new ApiException('Cannot copy billing address as it is empty');
             }
@@ -182,7 +189,8 @@ class Order extends Model {
      * @param \DateTime $date
      * @return \ActiveAnts\Order
      */
-    public function setPreferredShippingDate(\DateTime $date = null) {
+    public function setPreferredShippingDate(\DateTime $date = null)
+    {
         if (is_null($date)) {
             $date = new \DateTime('NOW');
         }
@@ -197,7 +205,8 @@ class Order extends Model {
      * @param string $street
      * @param string $city
      */
-    public function setPickupPoint($pointId, $postalCode, $street, $city) {
+    public function setPickupPoint($pointId, $postalCode, $street, $city)
+    {
         $this->PickUpPointId = $pointId;
         $this->PickUpPointPostalCode = $postalCode;
 
@@ -222,7 +231,8 @@ class Order extends Model {
      * @param \ActiveAnts\OrderItem $item
      * @return \ActiveAnts\Order
      */
-    public function addOrderItem(OrderItem $item) {
+    public function addOrderItem(OrderItem $item)
+    {
         $product = Product::model();
         $product->sku = $item->sku;
         if ($product->isNewRecord()) {
@@ -238,7 +248,8 @@ class Order extends Model {
      * @param string $code      2 letter isocode
      * @return \ActiveAnts\Order
      */
-    public function setLanguage($code = 'NL') {
+    public function setLanguage($code = 'NL')
+    {
         foreach (App::getInstance()->getSettings()->languages as $language) {
             if ($language->code == $code) {
                 $this->LanguageId = $language->id;
@@ -252,7 +263,8 @@ class Order extends Model {
      * Select the default order type
      * @return \ActiveAnts\Order
      */
-    public function setOrderType($code = 'webwinkel_orders') {
+    public function setOrderType($code = 'webwinkelorders_nl')
+    {
         foreach (App::getInstance()->getSettings()->orderTypes as $orderType) {
             if ($orderType->code == $code) {
                 $this->OrderTypeId = $orderType->id;
@@ -267,7 +279,8 @@ class Order extends Model {
      * @param type $code
      * @return \ActiveAnts\Order
      */
-    public function setPaymentMethod($code = 'GI') {
+    public function setPaymentMethod($code = 'GI')
+    {
         foreach (App::getInstance()->getSettings()->paymentMethods as $paymentMethod) {
             if ($paymentMethod->code == $code) {
                 $this->PaymentMethodId = $paymentMethod->id;
@@ -282,7 +295,8 @@ class Order extends Model {
      * @param string $code
      * @return \ActiveAnts\Order
      */
-    public function setShippingMethod($code = 'BUSEU1') {
+    public function setShippingMethod($code = 'BUSEU1')
+    {
         foreach (App::getInstance()->getSettings()->shippingMethods as $shippingMethod) {
             if ($shippingMethod->code == $code) {
                 $this->ShippingMethodId = $shippingMethod->id;
@@ -296,7 +310,8 @@ class Order extends Model {
      * Save the model
      * @param string $modelName
      */
-    public function save() {
+    public function save()
+    {
         if (!$this->isNewRecord()) {
             $this->message = 'Failed, order allready exists';
             return false;
@@ -312,10 +327,10 @@ class Order extends Model {
      * @param string $attributes
      * @return array
      */
-    public function findAll($attributes = array()) {
+    public function findAll($attributes = array())
+    {
         $data = $this->getData($attributes);
         $this->OrderNumber = $data[0];
         return array($this);
     }
-
 }
