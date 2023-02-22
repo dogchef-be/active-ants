@@ -2,13 +2,15 @@
 
 namespace ActiveAnts;
 
-class Model {
+class Model
+{
 
     /**
      * Return a new model
      * @return \static
      */
-    public static function model() {
+    public static function model()
+    {
         return new static();
     }
 
@@ -47,12 +49,14 @@ class Model {
      * Set the models attributes
      * @param array $attributes
      */
-    public function setAttributes($attributes) {
+    public function setAttributes($attributes)
+    {
         if (is_array($attributes)) {
             foreach ($attributes as $key => $value) {
                 $this->$key = $value;
             }
         }
+        return $this;
     }
 
     /**
@@ -60,7 +64,8 @@ class Model {
      * @param array $modelName
      * @return boolean
      */
-    public function isNewRecord() {
+    public function isNewRecord()
+    {
         if (!is_null($this->primaryKey)) {
             $response = App::getInstance()->client->request($this->_getPath() . '/' . $this->findAction, array($this->primaryKey => $this->_getPrimaryKey()));
             return !$response->success;
@@ -73,7 +78,8 @@ class Model {
      * @param string $attributes
      * @return array
      */
-    public function findAll($attributes = array()) {
+    public function findAll($attributes = array())
+    {
         $results = $this->getData($attributes);
         $data = array();
         foreach ($results as $result) {
@@ -86,13 +92,14 @@ class Model {
         }
         return $data;
     }
-    
+
     /**
      * Find by the primary key
      * @param string $pk
      * @return array
      */
-    public function findByPk($pk) {
+    public function findByPk($pk)
+    {
         $response = App::getInstance()->client->request($this->_getPath() . '/' . $this->findAction, array($this->primaryKey => $pk), $this->findMethod);
         $result = $response->result;
         if (count($result) == 1) {
@@ -101,7 +108,7 @@ class Model {
             foreach ($result[0] as $key => $value) {
                 //Fix the fact that for shipment data (only use case) properties
                 //are camelcase (as expected) but for all the other models aren't
-                $key = strtoupper(substr($key, 0,1)) . substr($key, 1);
+                $key = strtoupper(substr($key, 0, 1)) . substr($key, 1);
                 $object->$key = $value;
             }
             return $object;
@@ -113,7 +120,8 @@ class Model {
      * @param array $attributes
      * @return array
      */
-    protected function getData($attributes = array()) {
+    protected function getData($attributes = array())
+    {
         $response = App::getInstance()->client->request($this->_getPath() . '/' . $this->findAction, $attributes, $this->findMethod);
         if (!$response->success) {
             return array();
@@ -130,7 +138,8 @@ class Model {
      * @param string $modelName
      * @return boolean
      */
-    public function save() {
+    public function save()
+    {
         if ($this->isNewRecord()) {
             $response = App::getInstance()->client->request($this->_getPath() . '/add', (array) json_decode(json_encode($this)));
         } else {
@@ -145,7 +154,8 @@ class Model {
      * Returns the response for the query
      * @return array
      */
-    public function getResult() {
+    public function getResult()
+    {
         return $this->result;
     }
 
@@ -153,7 +163,8 @@ class Model {
      * Returns the message string
      * @return string
      */
-    public function getMessage() {
+    public function getMessage()
+    {
         return $this->message;
     }
 
@@ -161,7 +172,8 @@ class Model {
      * Return the contents of the search key
      * @return string
      */
-    private function _getPrimaryKey() {
+    private function _getPrimaryKey()
+    {
         $key = $this->primaryKey;
         return $this->$key;
     }
@@ -170,9 +182,9 @@ class Model {
      * Return the models path
      * @return string
      */
-    private function _getPath() {
+    private function _getPath()
+    {
         $classPath = explode("\\", get_called_class());
         return strtolower(end($classPath));
     }
-
 }
