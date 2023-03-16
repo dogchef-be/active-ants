@@ -4,7 +4,6 @@ namespace ActiveAnts;
 
 class Order extends Model
 {
-
     /**
      * The key used to lookup the model at ActiveAnts
      */
@@ -18,7 +17,7 @@ class Order extends Model
 
     /**
      * The active ants order number
-     * @var integer
+     * @var int
      */
     public $OrderNumber;
 
@@ -35,7 +34,7 @@ class Order extends Model
     public $PhoneNumber;
 
     /**
-     * Customers preferred shipping date 
+     * Customers preferred shipping date
      * yyyy-mm-dd
      * @var date
      */
@@ -43,25 +42,25 @@ class Order extends Model
 
     /**
      * The mapped value from the settings
-     * @var integer
+     * @var int
      */
     public $LanguageId;
 
     /**
      * The mapped value from the settings
-     * @var integer
+     * @var int
      */
     public $OrderTypeId;
 
     /**
      * The mapped value from the settings
-     * @var integer
+     * @var int
      */
     public $PaymentMethodId;
 
     /**
      * The mapped value from the settings
-     * @var integer
+     * @var int
      */
     public $ShippingMethodId;
 
@@ -69,7 +68,7 @@ class Order extends Model
      * Contains one or more order items
      * @var OrderItem[]
      */
-    public $OrderItems = array();
+    public $OrderItems = [];
 
     /**
      * Address for billing
@@ -87,23 +86,53 @@ class Order extends Model
      * The pickup point data
      * @var string
      */
-    public $PickUpPointPostalCode, $PickUpPointHouseNumber, $PickUpPointAddition, $PickUpPointId;
+    public $PickUpPointPostalCode;
+
+    public $PickUpPointHouseNumber;
+
+    public $PickUpPointAddition;
+
+    public $PickUpPointId;
 
     /**
      * Billing data
      * @var string
      */
-    public $BillingAddressFirstName, $BillingAddressLastName, $BillingAddressPostalCode,
-        $BillingAddressStreet, $BillingAddressHouseNumber, $BillingAddressHouseNumberAddition,
-        $BillingAddressCityName, $BillingAddressCountryIso;
+    public $BillingAddressFirstName;
+
+    public $BillingAddressLastName;
+
+    public $BillingAddressPostalCode;
+
+    public $BillingAddressStreet;
+
+    public $BillingAddressHouseNumber;
+
+    public $BillingAddressHouseNumberAddition;
+
+    public $BillingAddressCityName;
+
+    public $BillingAddressCountryIso;
 
     /**
      * Delivery data
      * @var string
      */
-    public $DeliveryAddressFirstName, $DeliveryAddressLastName, $DeliveryAddressPostalCode,
-        $DeliveryAddressStreet, $DeliveryAddressHouseNumber, $DeliveryAddressHouseNumberAddition,
-        $DeliveryAddressCityName, $DeliveryAddressCountryIso;
+    public $DeliveryAddressFirstName;
+
+    public $DeliveryAddressLastName;
+
+    public $DeliveryAddressPostalCode;
+
+    public $DeliveryAddressStreet;
+
+    public $DeliveryAddressHouseNumber;
+
+    public $DeliveryAddressHouseNumberAddition;
+
+    public $DeliveryAddressCityName;
+
+    public $DeliveryAddressCountryIso;
 
     /**
      * Build the default order
@@ -116,7 +145,7 @@ class Order extends Model
 
     /**
      * The customer's email
-     * @param string $email
+     * @param  string            $email
      * @return \ActiveAnts\Order
      */
     public function setEmail($email)
@@ -126,12 +155,13 @@ class Order extends Model
         } else {
             throw new ApiException('Emailaddress invalid');
         }
+
         return $this;
     }
 
     /**
      * The third party orderId
-     * @param string $orderId
+     * @param  string            $orderId
      * @return \ActiveAnts\Order
      */
     public function setOrderId($orderId)
@@ -140,53 +170,57 @@ class Order extends Model
             throw new ApiException('OrderId should at least have 3 chars');
         }
         $this->ExternalOrderNumber = $orderId;
+
         return $this;
     }
 
     /**
      * The customer's phoneNumber
-     * @param string $phoneNumber
+     * @param  string            $phoneNumber
      * @return \ActiveAnts\Order
      */
     public function setPhoneNumber($phoneNumber)
     {
         $this->PhoneNumber = $phoneNumber;
+
         return $this;
     }
 
     /**
      * Set the billing address
-     * @param \ActiveAnts\Address $address
+     * @param  \ActiveAnts\Address $address
      * @return \ActiveAnts\Order
      */
     public function setBillingAddress(Address $address)
     {
         $this->billingAddress = $address;
+
         return $this;
     }
 
     /**
      * Set the shipping address
-     * @param \ActiveAnts\Address $address
+     * @param  \ActiveAnts\Address $address
      * @return \ActiveAnts\Order
      */
     public function setShippingAddress(Address $address = null)
     {
         if (is_null($address)) {
-            if (!empty($this->billingAddress)) {
-                $this->shippingAddress = clone ($this->billingAddress);
+            if (! empty($this->billingAddress)) {
+                $this->shippingAddress = clone $this->billingAddress;
             } else {
                 throw new ApiException('Cannot copy billing address as it is empty');
             }
         } else {
             $this->shippingAddress = $address;
         }
+
         return $this;
     }
 
     /**
      * Set the preferred shipping date
-     * @param \DateTime $date
+     * @param  \DateTime         $date
      * @return \ActiveAnts\Order
      */
     public function setPreferredShippingDate(\DateTime $date = null)
@@ -195,6 +229,7 @@ class Order extends Model
             $date = new \DateTime('NOW');
         }
         $this->PreferredShippingDate = date('Y-m-d H:i:s', $date->getTimestamp());
+
         return $this;
     }
 
@@ -228,7 +263,7 @@ class Order extends Model
 
     /**
      * Add an item to the order
-     * @param \ActiveAnts\OrderItem $item
+     * @param  \ActiveAnts\OrderItem $item
      * @return \ActiveAnts\Order
      */
     public function addOrderItem(OrderItem $item)
@@ -245,7 +280,7 @@ class Order extends Model
 
     /**
      * Set the customer language
-     * @param string $code      2 letter isocode
+     * @param  string            $code 2 letter isocode
      * @return \ActiveAnts\Order
      */
     public function setLanguage($code = 'NL')
@@ -253,6 +288,7 @@ class Order extends Model
         foreach (App::getInstance()->getSettings()->languages as $language) {
             if ($language->code == $code) {
                 $this->LanguageId = $language->id;
+
                 return $this;
             }
         }
@@ -268,6 +304,7 @@ class Order extends Model
         foreach (App::getInstance()->getSettings()->orderTypes as $orderType) {
             if ($orderType->code == $code) {
                 $this->OrderTypeId = $orderType->id;
+
                 return $this;
             }
         }
@@ -276,7 +313,7 @@ class Order extends Model
 
     /**
      * Set the payment method
-     * @param type $code
+     * @param  type              $code
      * @return \ActiveAnts\Order
      */
     public function setPaymentMethod($code = 'GI')
@@ -284,6 +321,7 @@ class Order extends Model
         foreach (App::getInstance()->getSettings()->paymentMethods as $paymentMethod) {
             if ($paymentMethod->code == $code) {
                 $this->PaymentMethodId = $paymentMethod->id;
+
                 return $this;
             }
         }
@@ -292,7 +330,7 @@ class Order extends Model
 
     /**
      * Set the shipping method
-     * @param string $code
+     * @param  string            $code
      * @return \ActiveAnts\Order
      */
     public function setShippingMethod($code = 'BUSEU1')
@@ -300,6 +338,7 @@ class Order extends Model
         foreach (App::getInstance()->getSettings()->shippingMethods as $shippingMethod) {
             if ($shippingMethod->code == $code) {
                 $this->ShippingMethodId = $shippingMethod->id;
+
                 return $this;
             }
         }
@@ -312,25 +351,28 @@ class Order extends Model
      */
     public function save()
     {
-        if (!$this->isNewRecord()) {
+        if (! $this->isNewRecord()) {
             $this->message = 'Failed, order allready exists';
+
             return false;
         }
         //Merge the address data into this model
         $this->setAttributes($this->billingAddress->getAddress('BillingAddress'));
         $this->setAttributes($this->shippingAddress->getAddress('DeliveryAddress'));
+
         return parent::save();
     }
 
     /**
-     * Return all data from api 
-     * @param string $attributes
+     * Return all data from api
+     * @param  string $attributes
      * @return array
      */
-    public function findAll($attributes = array())
+    public function findAll($attributes = [])
     {
         $data = $this->getData($attributes);
         $this->OrderNumber = $data[0];
-        return array($this);
+
+        return [$this];
     }
 }
