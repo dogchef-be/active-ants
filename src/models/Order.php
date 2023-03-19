@@ -308,7 +308,8 @@ class Order extends Model
                 return $this;
             }
         }
-        throw new ApiException('Invalid order type');
+
+        throw new ApiException('Invalid order type', 400);
     }
 
     /**

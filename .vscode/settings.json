@@ -19,6 +19,18 @@
   "editor.codeActionsOnSave": {
     "source.fixAll": true
   },
+  "editor.quickSuggestions": {
+    "strings": true
+  },
+  "remote.extensionKind": {
+    "vscode.css-language-features": "ui",
+    "vscode.php-language-features": "ui",
+    "vscode.typescript-language-features": "ui",
+    "xabikos.javascriptsnippets": "workspace",
+    "sdras.vue-vscode-snippets": "workspace",
+    "cpylua.language-postcss": "workspace",
+    "mikestead.dotenv": "workspace"
+  },
   "[php]": {
     "editor.defaultFormatter": "mansoorkhan96.php-cs-fixer"
   },

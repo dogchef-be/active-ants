@@ -16,7 +16,6 @@ $rules = [
     'blank_line_before_statement' => [
         'statements' => ['return'],
     ],
-    'braces' => true,
     'cast_spaces' => true,
     'class_attributes_separation' => [
         'elements' => [
@@ -57,7 +56,6 @@ $rules = [
     'lambda_not_used_import' => true,
     'linebreak_after_opening_tag' => true,
     'line_ending' => true,
-    'list_syntax' => true,
     'lowercase_cast' => true,
     'lowercase_keywords' => true,
     'lowercase_static_reference' => true,
@@ -208,7 +206,7 @@ foreach ($directories as $key => $directory) {
 $finder = PhpCsFixer\Finder::create()
     ->in($directories)
     ->notName([
-        '.php-cs-fixer.php',
+        '.php-cs-fixer*',
         '*.blade.php',
     ])
     ->name('*.php')
