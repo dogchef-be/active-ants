@@ -1,3 +1,8 @@
 /nbproject
-/composer.lock
 /vendor
+composer.lock
+.php-cs-fixer*
+.gitattributes
+**/.DS_Store
+/.vscode
+/.devcontainer
