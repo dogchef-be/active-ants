@@ -2,7 +2,8 @@
 
 namespace ActiveAnts;
 
-class Address extends Model {
+class Address extends Model
+{
 
     /**
      * Customer first name
@@ -68,7 +69,8 @@ class Address extends Model {
      * @param string $houseNumberAddition Optional
      * @return \ActiveAnts\Address
      */
-    public static function formatAddress($street, $postalCode, $city, $houseNumber = null, $houseNumberAddition = null) {
+    public static function formatAddress($street, $postalCode, $city, $houseNumber = null, $houseNumberAddition = null)
+    {
         $address = new Address();
         if (is_null($houseNumber)) {
             //If housenumber was not provided, try to retreive it from the street (address)
@@ -96,7 +98,8 @@ class Address extends Model {
      * @return \ActiveAnts\Address
      * @throws ApiException
      */
-    public function setCountry($code) {
+    public function setCountry($code)
+    {
         foreach (App::getInstance()->getSettings()->countries as $country) {
             if ($country->code == $code) {
                 $this->countryIso = $country->code;
@@ -112,7 +115,8 @@ class Address extends Model {
      * @param string $firstName
      * @return \ActiveAnts\Address
      */
-    public function setName($lastName, $firstName = null) {
+    public function setName($lastName, $firstName = null)
+    {
         $this->firstName = $firstName;
         $this->lastName = $lastName;
         return $this;
@@ -125,10 +129,22 @@ class Address extends Model {
      * @param string $addition
      * @return \ActiveAnts\Address
      */
-    public function setAddress($street, $number, $addition = null) {
+    public function setAddress($street, $number, $addition = null)
+    {
         $this->street = $street;
-        $this->houseNumber = $number;
-        $this->houseNumberAddition = $addition;
+
+        $firstLetterPos = strcspn($number, 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz');
+        if ($firstLetterPos !== strlen($number)) {
+            $firstPart = substr($number, 0, $firstLetterPos);
+            $secondPart = substr($number, $firstLetterPos);
+            $secondPart = $addition === null ? $secondPart : $secondPart . " " . $addition;
+        } else {
+            $firstPart = $street;
+            $secondPart = $addition;
+        }
+
+        $this->houseNumber = $firstPart;
+        $this->houseNumberAddition = $secondPart;
         return $this;
     }
 
@@ -137,7 +153,8 @@ class Address extends Model {
      * @param string $postalCode
      * @return \ActiveAnts\Address
      */
-    public function setPostalcode($postalCode) {
+    public function setPostalcode($postalCode)
+    {
         $this->postalCode = $postalCode;
         return $this;
     }
@@ -147,7 +164,8 @@ class Address extends Model {
      * @param string $city
      * @return \ActiveAnts\Address
      */
-    public function setCity($city) {
+    public function setCity($city)
+    {
         $this->cityName = $city;
         return $this;
     }
@@ -157,7 +175,8 @@ class Address extends Model {
      * @param string $type
      * @return array
      */
-    public function getAddress($type) {
+    public function getAddress($type)
+    {
         $address = array();
         foreach (array_keys(get_class_vars(__CLASS__)) as $key) {
             $u = ucwords(substr($key, 0, 1)) . substr($key, 1);
@@ -169,20 +188,21 @@ class Address extends Model {
     /**
      * Sets the 'extra' name
      */
-    public function setExtraName() {
+    public function setExtraName()
+    {
         $this->extraName = 'T.a.v.' . $this->firstName . ' ' . $this->lastName .
-                ' (' . $this->getFullHouseNumber() . ')';
+            ' (' . $this->getFullHouseNumber() . ')';
     }
 
     /**
      * Return the formatted housenumber
      * @return string
      */
-    public function getFullHouseNumber() {
+    public function getFullHouseNumber()
+    {
         if (is_null($this->houseNumberAddition) || trim($this->houseNumberAddition) == '') {
             return $this->houseNumber;
         }
         return $this->houseNumber . ' ' . $this->houseNumberAddition;
     }
-
 }
