@@ -139,10 +139,9 @@ class Address extends Model
             $secondPart = substr($number, $firstLetterPos);
             $secondPart = $addition === null ? $secondPart : $secondPart . " " . $addition;
         } else {
-            $firstPart = $street;
+            $firstPart = $number;
             $secondPart = $addition;
         }
-
         $this->houseNumber = $firstPart;
         $this->houseNumberAddition = $secondPart;
         return $this;
