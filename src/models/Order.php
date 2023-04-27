@@ -271,7 +271,7 @@ class Order extends Model
         $product = Product::model();
         $product->sku = $item->sku;
         if ($product->isNewRecord()) {
-            throw new ApiException('Product does not exist');
+            throw new ApiException('Product does not exist ' . $item->sku);
         }
         array_push($this->OrderItems, $item);
 
