@@ -3,9 +3,9 @@
     "description": "Client for ActiveAnts API",
     "type": "package",
     "require": {
-        "guzzlehttp/guzzle": "^6.1"
+        "guzzlehttp/guzzle": "^7.0.1"
     },
-     "keywords": [
+    "keywords": [
         "active",
         "ants",
         "client",
@@ -21,7 +21,12 @@
     ],
     "autoload": {
         "psr-4": {
-            "ActiveAnts\\": ["src", "src/models", "src/exception", "src/app"]
+            "ActiveAnts\\": [
+                "src",
+                "src/models",
+                "src/exception",
+                "src/app"
+            ]
         }
     }
 }
