@@ -3,7 +3,7 @@
     "description": "Client for ActiveAnts API",
     "type": "package",
     "require": {
-        "guzzlehttp/guzzle": "^7.0.1"
+        "guzzlehttp/guzzle": "^7.5.0"
     },
     "keywords": [
         "active",
