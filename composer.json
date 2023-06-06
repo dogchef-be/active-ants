@@ -2,9 +2,7 @@
     "name": "dogchef-be/active-ants",
     "description": "Client for ActiveAnts API",
     "type": "package",
-    "require": {
-        "guzzlehttp/guzzle": "^7.5.0"
-    },
+    "require": {},
     "keywords": [
         "active",
         "ants",
